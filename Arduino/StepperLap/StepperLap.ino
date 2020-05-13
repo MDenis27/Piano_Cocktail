@@ -32,11 +32,9 @@ void loop() {
 
 void rotateAngle(float angle){
   value = (angle/360)*200;
-  
-  if (angle > 0) {
-    digitalWrite(dirPin,LOW);
-  }
-  else {
+
+  digitalWrite(dirPin, LOW);
+  if (angle < 0) {
     digitalWrite(dirPin,HIGH);
     value = -value;
   }
@@ -53,12 +51,10 @@ void rotateAngle(float angle){
 void rotateLap(float lap){
   value = lap*200;
   
-  if (lap > 0) {
-    digitalWrite(dirPin,LOW);
-  }
-  else {
+  digitalWrite(dirPin,LOW);
+  if (lap < 0) {
     digitalWrite(dirPin,HIGH);
-    value = -value;
+    value = - value;
   }
 
   val = (int) value;
