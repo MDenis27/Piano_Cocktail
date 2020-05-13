@@ -36,7 +36,7 @@ int cocktail8[5] = {50, 0, 0, 200, 0};
 
 
 float value = 0;
-float temp;
+float y;
 float lap;
 int val = 0;
 int i;
@@ -108,8 +108,8 @@ float computeLap(int ml) {
   lap = 0;
   
   if (ml != 0){
-    temp = (float) ml;
-    lap = (temp - 0.3393)/0.5141;
+    y = (float) ml;
+    lap = (y - 0.3393)/0.5141;
   }
   return lap;
 }
@@ -117,12 +117,12 @@ float computeLap(int ml) {
 //Serve drink from table
 void serveDrink(int tab[]){
   for (i = 0; i <= 5; i++){
-    Motor(computeLap(tab[i]), i+1);
+    motor(computeLap(tab[i]), i+1);
   }
 }
 
 //Rotate the motor of <lap> laps
-void Motor(float lap, int motor){
+void motor(float lap, int motor){
   // Compute the number of steps
   value = lap*200;
 
