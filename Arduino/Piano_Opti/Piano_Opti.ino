@@ -37,7 +37,7 @@ int cocktail8[5] = {50, 0, 0, 200, 0};
 
 float value = 0;
 float temp;
-float lap = 0;
+float lap;
 int val = 0;
 int i;
 
@@ -105,12 +105,11 @@ void loop() {
 
 //Compute lap from ml
 float computeLap(int ml) {
+  lap = 0;
+  
   if (ml != 0){
     temp = (float) ml;
-    lap = (temp - 0.33)/2;
-  }
-  else {
-    lap = 0;
+    lap = (temp - 0.3393)/0.5141;
   }
   return lap;
 }
@@ -154,12 +153,10 @@ void Motor(float lap, int motor){
     }
 
   // Decide the sens of rotation
-  if (lap > 0) {
-    digitalWrite(dirPin,LOW);
-  }
-  else {
+  digitalWrite(dirPin,LOW);
+  if (lap < 0) {
     digitalWrite(dirPin,HIGH);
-    value = -value;
+    value = - value;
   }
 
   //Turn <val> step
