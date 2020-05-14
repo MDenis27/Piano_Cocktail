@@ -5,8 +5,8 @@ import pygame as pg
 #import keyboard
 import time
 
-avail_songs = ["MIDIControl/songs/dr_dre.wav","MIDIControl/songs/ne_reviens_pas.wav","MIDIControl/songs/tequila.wav"]
-cor_seq = [[50,50,50,50,50],[51,51,51,51,51,51],[52,52,52,52,52,52,52]]
+#avail_songs = ["MIDIControl/songs/dr_dre.wav","MIDIControl/songs/ne_reviens_pas.wav","MIDIControl/songs/tequila.wav"]
+#cor_seq = [[50,50,50,50,50],[51,51,51,51,51,51],[52,52,52,52,52,52,52]]
 
 
 mixer = pg.mixer
@@ -29,7 +29,7 @@ def isThisTilePushed(tile):
         return False
 
 
-def select_or_next_song():
+def select_or_next_song(avail_songs,cor_seq):
     cursor = 0
     port = mido.open_input('Q49 MIDI 1')
     while True:
@@ -44,7 +44,7 @@ def select_or_next_song():
                                 cursor = cursor - 1
                                 if(cursor == -1):
                                     cursor = len(avail_songs) - 1
-                                play_song(cursor)
+                                play_song(cursor,avail_songs)
                             if(msg.note%12 == 2):
                                 print("next song")
                                 time.sleep(0.5)
@@ -53,7 +53,7 @@ def select_or_next_song():
                                     exist = avail_songs[cursor]
                                 except:
                                     cursor = 0
-                                play_song(cursor)
+                                play_song(cursor,avail_songs)
                             if(msg.note%12 == 1):
                                 mixer.stop()
                                 return cor_seq[cursor]
@@ -85,7 +85,7 @@ def select_or_next_song():
             return cor_seq[cursor]
 
 '''
-def play_song(i):
+def play_song(i,avail_songs):
     if(mixer.get_busy):
         mixer.stop()
         time.sleep(0.5)

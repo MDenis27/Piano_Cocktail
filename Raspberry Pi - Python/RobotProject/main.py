@@ -25,6 +25,8 @@ args = parser.parse_args()
 age = '38-43'
 seq = []
 
+avail_songs, cor_seq = ti.initialise_song_list('songs.txt')
+
 while True:
     speak("Place your glass.")
     if args.button:
@@ -42,7 +44,7 @@ while True:
     print(gad.isAgeOk(age))
     if gad.isAgeOk(age):
         if args.interface:
-            selected_song = ti.selecting_song()
+            selected_song = ti.selecting_song(avail_songs,cor_seq)
             print(selected_song)
 #            if args.arduino:
 # melo.SendMelo(selected_song)
@@ -56,7 +58,7 @@ while True:
         if args.arduino:
             print("Arduino args: OK")
             try:
-                melo.sendCocktail(seq)
+                melo.sendCocktail(seq,cor_seq)
                 melo.waitResponse() # End the transmission
                 print("Transmission ended")
             except:

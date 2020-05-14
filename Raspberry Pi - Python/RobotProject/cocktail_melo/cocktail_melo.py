@@ -3,9 +3,9 @@ import serial
 from cocktail_melo import melo_test
 
 ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
-listMelodies = [[71, 71, 71], [69, 69, 69], [52, 19, 31], [15, 17, 52], [25, 30, 41]]
+#listMelodies = [[71, 71, 71], [69, 69, 69], [52, 19, 31], [15, 17, 52], [25, 30, 41]]
 
-def sendCocktail(melo_seq):
+def sendCocktail(melo_seq,listMelodies):
     """
     Connect to the arduino, 
     compare the giving argument 'melo_seq' to the list of sequences
@@ -18,14 +18,14 @@ def sendCocktail(melo_seq):
         number = ser.read()
         if number != b'':
             if int.from_bytes(number, byteorder='big') == 1:
-                cocktail_nr = compare_melo(melo_seq)
+                cocktail_nr = compare_melo(melo_seq, listMelodies)
                 print("Button has been pressed.")
                 print("Sending number " + str(cocktail_nr) + " to Arduino.")
                 ser.write(str(cocktail_nr).encode('utf-8'))
                 if waitResponse():
                     break
 
-def compare_melo(melo_seq):
+def compare_melo(melo_seq, listMelodies):
     """
     Compare the given argument to a list of notes'sequences
     """
