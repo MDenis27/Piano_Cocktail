@@ -1,3 +1,17 @@
+/*    Import library    */
+
+#include <Adafruit_NeoPixel.h>  //Neopixel library
+
+
+/*    Define    */
+
+#define ARRAY_SIZE(array) ((sizeof(array))/(sizeof(array[0])))  // calculate size of array
+#define LED_PIN 6  // pin of Neopixel
+#define LED_COUNT 30  // number of NeoPixels use
+
+/*    Constants    */
+
+// Motor constant
 const int stepPin1 = 11;
 const int dirPin1 = 12;
 
@@ -13,6 +27,16 @@ const int dirPin4 = 5;
 const int stepPin5 = 2;
 const int dirPin5 = 3;
 
+/*    Variables    */
+// NeoPixel strip object decoration
+Adafruit_NeoPixel bande(LED_COUNT , LED_PIN , NEO_RGBW);
+// Colors of Neopixels defining
+uint32_t magenta = bande.Color(255, 0, 255, 0);
+uint32_t greenishwhite = bande.Color(0, 64, 0, 64);
+
+int myMelo[5]; //array which content melody (size = 5)
+
+//Motor Variables
 int stepPin;
 int dirPin;
 
@@ -61,12 +85,31 @@ void setup() {
   pinMode(stepPin5,OUTPUT);
   pinMode(dirPin5,OUTPUT);
 
+  // Neopixels
+  bande.begin();
+  // Initialize all pixels to 'off'
+  bande.show(); 
+
 }
 
 void loop() {
 
   // Debut comminication with Rasp
   if (Serial.available() > 0) {
+
+    for (int i = 0; i < 5; i++) {  // loop to fill array of melody (size = 5)
+        String data = Serial.readStringUntil(':');  // read receive value until ':' character
+        int int_data = data.toInt(); // convert to int
+        myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
+        delay(50);
+    }
+
+    turnoff_neopixel();
+
+    play_melo();
+
+    delay(5000);
+    
     int cocktail = Serial.read() - '0';
 
     // Select the cocktail
@@ -168,4 +211,25 @@ void motor(float lap, int motor){
       digitalWrite(stepPin,LOW);
       delayMicroseconds(500);
     }
+}
+
+void play_melo(){
+ /*
+  * Method which show the light sequence to play
+  */
+ for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
+  bande.setPixelColor(myMelo[i], magenta);
+  bande.show();
+  delay(1000);
+  turnoff_neopixel();
+  delay(1000);
+  }
+}
+
+void turnoff_neopixel(){
+  /*
+   * Method which turn off the neopixel
+   */
+  bande.clear();
+  bande.show();
 }
