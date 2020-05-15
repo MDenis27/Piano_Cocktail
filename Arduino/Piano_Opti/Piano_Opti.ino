@@ -115,6 +115,10 @@ void loop() {
         }
     }
 
+    bande.begin();
+    bande.setPixelColor(12, 255, 0, 255);
+    bande.show();
+
     feedbackEndTransmission();
 
     turnoff_neopixel();
