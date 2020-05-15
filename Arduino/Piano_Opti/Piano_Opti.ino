@@ -6,7 +6,7 @@
 /*    Define    */
 
 #define ARRAY_SIZE(array) ((sizeof(array))/(sizeof(array[0])))  // calculate size of array
-#define LED_PIN 6  // pin of Neopixel
+#define LED_PIN 8  // pin of Neopixel
 #define LED_COUNT 30  // number of NeoPixels use
 
 /*    Constants    */
