@@ -34,7 +34,7 @@ Adafruit_NeoPixel bande(LED_COUNT , LED_PIN , NEO_RGBW);
 uint32_t magenta = bande.Color(255, 0, 255, 0);
 uint32_t greenishwhite = bande.Color(0, 64, 0, 64);
 
-int myMelo[4]; //array which content melody (size = 4)
+int myMelo[6]; //Longest Array
 
 //Motor Variables
 int stepPin;
@@ -64,6 +64,7 @@ float y;
 float lap;
 int val = 0;
 int i;
+bool reception;
 
 void feedbackEndTransmission()
 {
@@ -99,11 +100,19 @@ void loop() {
   
   if (Serial.available() > 0) {
 
-    for (int i = 0; i < 4; i++) {  // loop to fill array of melody (size = 4)
+    i = 0;
+    reception = true;
+    while (reception){
         String data = Serial.readStringUntil(':');  // read receive value until ':' character
         int int_data = data.toInt(); // convert to int
-        myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
-        delay(50);
+        if (int_data != 0){
+          myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
+          delay(50);
+          i++;
+        }
+        else {
+          reception = false;
+        }
     }
 
     feedbackEndTransmission();
