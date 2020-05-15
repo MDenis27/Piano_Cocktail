@@ -96,6 +96,7 @@ void loop() {
 
   // Debut comminication with Rasp
   feedbackEndTransmission();
+  
   if (Serial.available() > 0) {
 
     for (int i = 0; i < 4; i++) {  // loop to fill array of melody (size = 4)
@@ -105,11 +106,11 @@ void loop() {
         delay(50);
     }
 
+    feedbackEndTransmission();
+
     turnoff_neopixel();
 
     play_melo();
-
-    feedbackEndTransmission();
     
     int cocktail = Serial.read() - '0';
 
