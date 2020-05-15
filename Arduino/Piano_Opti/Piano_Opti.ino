@@ -34,7 +34,7 @@ Adafruit_NeoPixel bande(LED_COUNT , LED_PIN , NEO_RGBW);
 uint32_t magenta = bande.Color(255, 0, 255, 0);
 uint32_t greenishwhite = bande.Color(0, 64, 0, 64);
 
-int myMelo[6]; //Longest Array
+int myMelo[6] = {10, 10, 10, 10, 10, 10}; //Longest Array
 
 //Motor Variables
 int stepPin;
@@ -114,10 +114,6 @@ void loop() {
           reception = false;
         }
     }
-
-    bande.begin();
-    bande.setPixelColor(12, 255, 0, 255);
-    bande.show();
 
     feedbackEndTransmission();
 
