@@ -89,7 +89,10 @@ void setup() {
   // Neopixels
   bande.begin();
   // Initialize all pixels to 'off'
-  bande.show(); 
+  bande.show();
+
+  // Debug
+  pinMode(13, OUTPUT);
 
 }
 
@@ -103,6 +106,7 @@ void loop() {
     i = 0;
     reception = true;
     while (reception){
+        digitalWrite(13, HIGH);
         String data = Serial.readStringUntil(':');  // read receive value until ':' character
         int int_data = data.toInt(); // convert to int
         if (int_data != 0){
@@ -112,6 +116,7 @@ void loop() {
         }
         else {
           reception = false;
+          digitalWrite(13, LOW);
         }
     }
 
@@ -120,6 +125,8 @@ void loop() {
     turnoff_neopixel();
 
     play_melo();
+
+    while(!Serial.available() ){}
     
     int cocktail = Serial.read() - '0';
 
@@ -228,13 +235,15 @@ void play_melo(){
  /*
   * Method which show the light sequence to play
   */
- for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
-  bande.setPixelColor(myMelo[i], magenta);
-  bande.show();
-  delay(1000);
-  turnoff_neopixel();
-  delay(1000);
-  }
+   for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
+      if (myMelo[i] != 0){
+        bande.setPixelColor(myMelo[i], magenta);
+        bande.show();
+        delay(1000);
+        turnoff_neopixel();
+        delay(1000);
+      }
+   }
 }
 
 void turnoff_neopixel(){
