@@ -34,7 +34,7 @@ Adafruit_NeoPixel bande(LED_COUNT , LED_PIN , NEO_RGBW);
 uint32_t magenta = bande.Color(255, 0, 255, 0);
 uint32_t greenishwhite = bande.Color(0, 64, 0, 64);
 
-int myMelo[6] = {10, 10, 10, 10, 10, 10}; //Longest Array
+int myMelo[6] = {50, 50, 50, 50, 50, 50}; //Longest Array
 
 //Motor Variables
 int stepPin;
@@ -65,6 +65,8 @@ float lap;
 int val = 0;
 int i;
 bool reception;
+String inputString = "";         // a String to hold incoming data
+bool complete = false;  // whether the string is complete
 
 void feedbackEndTransmission()
 {
@@ -99,7 +101,6 @@ void setup() {
 void loop() {
   
   while(!Serial.available() ){}
-
   String data = Serial.readStringUntil(':');
   int int_data = data.toInt();
   
@@ -107,7 +108,6 @@ void loop() {
     i = 0;
     reception = true;
     while (reception){
-        digitalWrite(13, HIGH);
         String data = Serial.readStringUntil(':');  // read receive value until ':' character
         int int_data = data.toInt(); // convert to int
         if (int_data != 0){
@@ -117,7 +117,6 @@ void loop() {
         }
         else {
           reception = false;
-          digitalWrite(13, LOW);
         }
     }
 
@@ -128,10 +127,9 @@ void loop() {
     play_melo();
 
     feedbackEndTransmission();
-    
-  }
-  else {
-    int cocktail = Serial.read() - '0';
+
+    if (complete) {
+      int cocktail = inputString.toInt();
 
     // Select the cocktail
     switch (cocktail) {
@@ -163,7 +161,12 @@ void loop() {
         break;
     }
     feedbackEndTransmission();
-   }
+      // clear the string:
+      inputString = "";
+      complete = false;
+    }
+    
+  }
 
 }
 
@@ -239,7 +242,8 @@ void play_melo(){
   * Method which show the light sequence to play
   */
    for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
-      if (myMelo[i] != 0){
+      if (myMelo[i] != 50){
+        int led = myMelo[i] - 48;
         bande.setPixelColor(myMelo[i], magenta);
         bande.show();
         delay(1000);
@@ -255,4 +259,16 @@ void turnoff_neopixel(){
    */
   bande.clear();
   bande.show();
+}
+
+void serialEvent() {
+  while (Serial.available()) {
+    // get the new byte:
+    char inChar = (char)Serial.read();
+    // add it to the inputString:
+    inputString += inChar;
+    if (isDigit(inChar)) {
+      complete = true;
+    }
+  }
 }
