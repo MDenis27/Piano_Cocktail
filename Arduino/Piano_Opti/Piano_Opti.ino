@@ -65,8 +65,6 @@ float lap;
 int val = 0;
 int i;
 bool reception;
-String inputString = "";         // a String to hold incoming data
-bool complete = false;  // whether the string is complete
 
 void feedbackEndTransmission()
 {
@@ -108,39 +106,36 @@ void loop() {
   String data = Serial.readStringUntil(':');
   int int_data = data.toInt();
   
-  if (int_data == 0){
-    i = 0;
-    reception = true;
-    while (reception){
-        String data = Serial.readStringUntil(':');  // read receive value until ':' character
-        int int_data = data.toInt(); // convert to int
-        if (int_data != 0){
-          myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
-          delay(50);
-          i++;
-        }
-        else {
-          reception = false;
-        }
-    }
-
-    feedbackEndTransmission();
-
-    turnoff_neopixel();
-
-    play_melo();
-
-    delay(3000);
-    
-    feedbackEndTransmission();
-    
+  i = 0;
+  reception = true;
+  while (reception){
+      String data = Serial.readStringUntil(':');  // read receive value until ':' character
+      int int_data = data.toInt(); // convert to int
+      if (int_data != 0){
+        myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
+        delay(50);
+        i++;
+      }
+      else {
+        reception = false;
+      }
   }
 
   feedbackEndTransmission();
+
+  turnoff_neopixel();
+
+  play_melo();
+
+  delay(3000);
   
-  if (complete) {
-      digitalWrite(13, HIGH); 
-      int cocktail = inputString.toInt();
+  feedbackEndTransmission();
+
+  delay(3000);
+
+  feedbackEndTransmission();
+
+    int cocktail = Serial.read() - '0';
 
     // Select the cocktail
     switch (cocktail) {
@@ -172,11 +167,6 @@ void loop() {
         break;
     }
     feedbackEndTransmission();
-      // clear the string:
-      inputString = "";
-      complete = false;
-      digitalWrite(13, LOW); 
-    }
 
 }
 
@@ -253,7 +243,7 @@ void play_melo(){
   */
    for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
       if (myMelo[i] != 100){
-        int led = myMelo[i] - 42;
+        int led = myMelo[i] - 43;
         bande.setPixelColor(led, magenta);
         bande.show();
         delay(1000);
@@ -269,16 +259,4 @@ void turnoff_neopixel(){
    */
   bande.clear();
   bande.show();
-}
-
-void serialEvent() {
-  while (Serial.available()) {
-    // get the new byte:
-    char inChar = (char)Serial.read();
-    // add it to the inputString:
-    inputString += inChar;
-    if (isDigit(inChar)) {
-      complete = true;
-    }
-  }
 }
