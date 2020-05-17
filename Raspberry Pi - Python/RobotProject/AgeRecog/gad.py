@@ -100,6 +100,7 @@ def detectAge():
         resultImg,faceBoxes=highlightFace(faceNet,frame)
         if not faceBoxes:
             print("No face detected")
+            return '0-2'
 
         for faceBox in faceBoxes:
             face=frame[max(0,faceBox[1]-padding):

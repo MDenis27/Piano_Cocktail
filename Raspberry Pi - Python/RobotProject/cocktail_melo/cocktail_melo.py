@@ -2,7 +2,6 @@ import time
 import serial
 from cocktail_melo import melo_test
 
-
 #listMelodies = [[71, 71, 71], [69, 69, 69], [52, 19, 31], [15, 17, 52], [25, 30, 41]]
 
 def sendCocktail(melo_seq,listMelodies,ser):
@@ -22,8 +21,8 @@ def sendCocktail(melo_seq,listMelodies,ser):
                     print("Button has been pressed.")
                     print("Sending number " + str(cocktail_nr) + " to Arduino.")
                     ser.write(str(cocktail_nr).encode('utf-8'))
-                    if waitResponse(ser):
-                        break
+        if waitResponse(ser):
+                        break            
 
 def compare_melo(melo_seq, listMelodies):
     """
