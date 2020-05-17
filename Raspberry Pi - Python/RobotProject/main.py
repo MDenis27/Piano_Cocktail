@@ -59,7 +59,6 @@ while True:
             print("Arduino args: OK")
             try:
                 melo.sendCocktail(seq,cor_seq)
-                melo.waitResponse() # End the transmission
                 print("Transmission ended")
             except:
                print("Arduino is not attached")

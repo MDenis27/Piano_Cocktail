@@ -62,29 +62,7 @@ def select_or_next_song(avail_songs,cor_seq):
             print(error)
             return False
         
-    
-'''
-def select_or_next_song():
-    cursor = 0
-    while True:
-        if(keyboard.is_pressed('q')): # isThisTilePushed(1)
-            cursor = cursor - 1
-            if(cursor == -1):
-                cursor = len(avail_songs) - 1
-            play_song(cursor)
-        if(keyboard.is_pressed('d')): # isThisTilePushed(3)
-            print("next song")
-            time.sleep(0.5)
-            cursor = cursor + 1
-            try:
-                exist = avail_songs[cursor]
-            except:
-                cursor = 0
-            play_song(cursor)
-        if(keyboard.is_pressed('s')): # isThisTilePushed(2)
-            return cor_seq[cursor]
 
-'''
 def play_song(i,avail_songs):
     if(mixer.get_busy):
         mixer.stop()

@@ -12,7 +12,7 @@ def selecting_song(avail_songs,cor_seq): # main
 
     time.sleep(0.5)
 
-    cs.play_song(0)
+    cs.play_song(0, avail_songs)
     return cs.select_or_next_song(avail_songs,cor_seq)
 
 def initialise_song_list(doc_path):

@@ -19,11 +19,12 @@ def sendCocktail(melo_seq,listMelodies):
         if number != b'':
             if int.from_bytes(number, byteorder='big') == 1:
                 cocktail_nr = compare_melo(melo_seq, listMelodies)
-                print("Button has been pressed.")
-                print("Sending number " + str(cocktail_nr) + " to Arduino.")
-                ser.write(str(cocktail_nr).encode('utf-8'))
-                if waitResponse():
-                    break
+                if cocktail_nr != 0:
+                    print("Button has been pressed.")
+                    print("Sending number " + str(cocktail_nr) + " to Arduino.")
+                    ser.write(str(cocktail_nr).encode('utf-8'))
+                    if waitResponse(ser):
+                        break
 
 def compare_melo(melo_seq, listMelodies):
     """
@@ -38,23 +39,26 @@ def compare_melo(melo_seq, listMelodies):
     print(result)
     return result
 
-def waitResponse():
+def waitResponse(s):
     """
     Connect to the arduino and wait for a feedback
     """
-    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
-    ser.flush()
-
     while True:
-        number = ser.read()
+        number = s.read()
         if number != b'':
             if int.from_bytes(number, byteorder='big') == 1:
                 return True
 
 def SendMelo(given_sequence):
     """Methode qui envoie la melodie du cocktail choisi à l'arduino"""
+    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+    ser.flush()
+
+    ser.write((str(0)+":").encode('utf-8'))
+
     for note in given_sequence:
         print("Nombre  " + str(note) + " envoye a arduino")
         ser.write((str(note) + ":").encode('utf-8'))
         time.sleep(0.5)
+    ser.write((str(0)+":").encode('utf-8'))
 
