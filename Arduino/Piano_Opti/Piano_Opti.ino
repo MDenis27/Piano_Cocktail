@@ -40,6 +40,13 @@ int myMelo[6] = {100, 100, 100, 100, 100, 100}; //Longest Array
 int stepPin;
 int dirPin;
 
+int cocktails[8][5] = { {3, 4, 3, 0, 0},
+                      {3, 0, 3, 0, 0},
+                      {0, 5, 0, 0, 2},
+                      {0, 0, 4, 0, 2},
+                      {0, 0, 4, 0, 0}
+                      };
+
 //{Tequila, Gin, Vodka, Sprite, Ginger ale}
 //Tequila
 int cocktail1[5] = {300, 0, 300, 0, 0};
@@ -134,51 +141,12 @@ void loop() {
 
   feedbackEndTransmission();
 
-    int cocktail = Serial.read() - '0';
+  int cocktail = Serial.read() - '0';
 
-    // Select the cocktail
-    switch (cocktail) {
-      case 1:
-        digitalWrite(13, HIGH);
-        
-        // Decide the sens of rotation
-        digitalWrite(dirPin1,LOW);
-        
-        for(int x = 0; x < 400; x++) {
-          digitalWrite(stepPin1,HIGH);
-          delayMicroseconds(500);
-          digitalWrite(stepPin1,LOW);
-          delayMicroseconds(500);
-        }
-        
-        serveDrink(cocktail1);
-        break;
-      case 2:
-        serveDrink(cocktail2);
-        break;
-      case 3:
-        serveDrink(cocktail3);
-        break;
-      case 4:
-        serveDrink(cocktail4);
-        break;
-      case 5:
-        serveDrink(cocktail5);
-        break;
-      case 6:
-        serveDrink(cocktail6);
-        break;
-      case 7:
-        serveDrink(cocktail7);
-        break;
-      case 8:
-        serveDrink(cocktail8);
-        break;
-      default:
-        break;
-    }
-    feedbackEndTransmission();
-    digitalWrite(13, LOW);
+  // Select the cocktail
+  serveDrink(cocktail);
+  feedbackEndTransmission();
+  digitalWrite(13, LOW);
 
 }
 
@@ -194,10 +162,13 @@ float computeLap(int ml) {
 }
 
 //Serve drink from table
-void serveDrink(int tab[]){
-  for (i = 0; i <= 5; i++){
-    motor(computeLap(tab[i]), i+1);
+void serveDrink(int drink){
+  digitalWrite(13, HIGH);
+  for (i = 0; i <= ARRAY_SIZE(cocktails[drink-1]); i++){
+    motor(computeLap(cocktails[drink-1][i]), i+1);
   }
+  delay(3000);
+  digitalWrite(13, LOW);
 }
 
 //Rotate the motor of <lap> laps
