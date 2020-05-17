@@ -61,4 +61,7 @@ def SendMelo(given_sequence):
         ser.write((str(note) + ":").encode('utf-8'))
         time.sleep(0.5)
     ser.write((str(0)+":").encode('utf-8'))
+    while True:
+        if waitResponse(ser):
+            break
 
