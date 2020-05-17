@@ -100,7 +100,11 @@ void setup() {
 
 void loop() {
   
-  while(!Serial.available() ){}
+  while(!Serial.available() ){
+    digitalWrite(13, LOW);
+    }
+
+  digitalWrite(13, HIGH);
   String data = Serial.readStringUntil(':');
   int int_data = data.toInt();
   
