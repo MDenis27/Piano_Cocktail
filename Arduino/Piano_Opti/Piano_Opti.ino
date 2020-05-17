@@ -121,6 +121,8 @@ void loop() {
         }
     }
 
+    feedbackEndTransmission();
+
     turnoff_neopixel();
 
     play_melo();
