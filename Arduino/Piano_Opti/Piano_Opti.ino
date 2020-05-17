@@ -34,7 +34,7 @@ Adafruit_NeoPixel bande(LED_COUNT , LED_PIN , NEO_RGBW);
 uint32_t magenta = bande.Color(255, 0, 255, 0);
 uint32_t greenishwhite = bande.Color(0, 64, 0, 64);
 
-int myMelo[6] = {50, 50, 50, 50, 50, 50}; //Longest Array
+int myMelo[6] = {100, 100, 100, 100, 100, 100}; //Longest Array
 
 //Motor Variables
 int stepPin;
@@ -244,9 +244,9 @@ void play_melo(){
   * Method which show the light sequence to play
   */
    for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
-      if (myMelo[i] != 50){
+      if (myMelo[i] != 100){
         int led = myMelo[i] - 48;
-        bande.setPixelColor(myMelo[i], magenta);
+        bande.setPixelColor(led, magenta);
         bande.show();
         delay(1000);
         turnoff_neopixel();
