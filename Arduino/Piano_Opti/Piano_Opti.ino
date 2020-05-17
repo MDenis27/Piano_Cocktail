@@ -136,7 +136,9 @@ void loop() {
 
     int cocktail = Serial.read() - '0';
     
-    digitalWrite(13, HIGH);
+    if (cocktail == 1){
+      digitalWrite(13, HIGH);
+    }
     // Select the cocktail
     switch (cocktail) {
       case 1:
