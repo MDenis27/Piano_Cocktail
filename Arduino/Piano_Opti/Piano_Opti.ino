@@ -102,7 +102,6 @@ void loop() {
     digitalWrite(13, LOW);
     }
 
-  digitalWrite(13, HIGH);
   String data = Serial.readStringUntil(':');
   int int_data = data.toInt();
   
@@ -136,7 +135,8 @@ void loop() {
   feedbackEndTransmission();
 
     int cocktail = Serial.read() - '0';
-
+    
+    digitalWrite(13, HIGH);
     // Select the cocktail
     switch (cocktail) {
       case 1:
@@ -167,6 +167,7 @@ void loop() {
         break;
     }
     feedbackEndTransmission();
+    digitalWrite(13, LOW);
 
 }
 
