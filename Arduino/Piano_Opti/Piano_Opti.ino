@@ -245,7 +245,7 @@ void play_melo(){
   */
    for (int i = 0; i < ARRAY_SIZE(myMelo); i++) {
       if (myMelo[i] != 100){
-        int led = myMelo[i] - 48;
+        int led = myMelo[i] - 42;
         bande.setPixelColor(led, magenta);
         bande.show();
         delay(1000);
