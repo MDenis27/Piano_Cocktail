@@ -142,12 +142,12 @@ void loop() {
         digitalWrite(13, HIGH);
         
         // Decide the sens of rotation
-        digitalWrite(dirPin,LOW);
+        digitalWrite(dirPin1,LOW);
         
         for(int x = 0; x < 400; x++) {
-          digitalWrite(stepPin,HIGH);
+          digitalWrite(stepPin1,HIGH);
           delayMicroseconds(500);
-          digitalWrite(stepPin,LOW);
+          digitalWrite(stepPin1,LOW);
           delayMicroseconds(500);
         }
         
