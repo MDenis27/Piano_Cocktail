@@ -97,14 +97,13 @@ void setup() {
 }
 
 void loop() {
-
-  // Debut comminication with Rasp
-  feedbackEndTransmission();
-
-  crazylights();
   
-  if (Serial.available() > 0) {
+  while(!Serial.available() ){}
 
+  String data = Serial.readStringUntil(':');
+  int int_data = data.toInt();
+  
+  if (int_data == 0){
     i = 0;
     reception = true;
     while (reception){
@@ -122,14 +121,14 @@ void loop() {
         }
     }
 
-    feedbackEndTransmission();
-
     turnoff_neopixel();
 
     play_melo();
 
-    while(!Serial.available() ){}
+    feedbackEndTransmission();
     
+  }
+  else {
     int cocktail = Serial.read() - '0';
 
     // Select the cocktail
@@ -162,7 +161,7 @@ void loop() {
         break;
     }
     feedbackEndTransmission();
-  }
+   }
 
 }
 
@@ -231,15 +230,6 @@ void motor(float lap, int motor){
       digitalWrite(stepPin,LOW);
       delayMicroseconds(500);
     }
-}
-
-void crazylights(){
-  for (int i = 0; i < 10; i++) {
-        bande.setPixelColor(i, greenishwhite);
-        bande.show();
-        delay(1000);
-        turnoff_neopixel();
-   }
 }
 
 void play_melo(){
