@@ -22,8 +22,8 @@ def sendCocktail(melo_seq,listMelodies,ser):
                     print("Button has been pressed.")
                     print("Sending number " + str(cocktail_nr) + " to Arduino.")
                     ser.write(str(cocktail_nr).encode('utf-8'))
-                    if waitResponse(ser):
-                        break
+        if waitResponse(ser):
+                        break            
 
 def compare_melo(melo_seq, listMelodies):
     """
