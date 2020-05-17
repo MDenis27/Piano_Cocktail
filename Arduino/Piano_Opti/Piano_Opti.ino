@@ -27,6 +27,12 @@ const int dirPin4 = 5;
 const int stepPin5 = 2;
 const int dirPin5 = 3;
 
+int motors[5][2] = {{stepPin1, dirPin1},
+{stepPin2, dirPin2},
+{stepPin3, dirPin3},
+{stepPin4, dirPin4},
+{stepPin5, dirPin5}};
+
 /*    Variables    */
 // NeoPixel strip object decoration
 Adafruit_NeoPixel bande(LED_COUNT , LED_PIN , NEO_RGBW);
@@ -163,12 +169,12 @@ float computeLap(int ml) {
 
 //Serve drink from table
 void serveDrink(int drink){
-  digitalWrite(13, HIGH);
   for (i = 0; i <= ARRAY_SIZE(cocktails[drink-1]); i++){
-    motor(computeLap(cocktails[drink-1][i]), i+1);
+    digitalWrite(13, HIGH);
+    motor(computeLap(cocktails[drink-1][i]), i);
+    digitalWrite(13, LOW);
   }
   delay(3000);
-  digitalWrite(13, LOW);
 }
 
 //Rotate the motor of <lap> laps
@@ -176,31 +182,8 @@ void motor(float lap, int motor){
   // Compute the number of steps
   value = lap*200;
 
-  // Choose the right motor
-  switch (motor) {
-      case 1:
-        dirPin = dirPin1;
-        stepPin = stepPin1;
-        break;
-      case 2:
-        dirPin = dirPin2;
-        stepPin = stepPin2;
-        break;
-      case 3:
-        dirPin = dirPin3;
-        stepPin = stepPin3;
-        break;
-      case 4:
-        dirPin = dirPin4;
-        stepPin = stepPin4;
-        break;
-      case 5:
-        dirPin = dirPin5;
-        stepPin = stepPin5;
-        break;
-      default:
-        break;
-    }
+  stepPin = motors[i][0];
+  dirPin = motors[i][1];
 
   // Decide the sens of rotation
   digitalWrite(dirPin,LOW);
