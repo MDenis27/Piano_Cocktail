@@ -100,6 +100,8 @@ void loop() {
 
   // Debut comminication with Rasp
   feedbackEndTransmission();
+
+  crazylights();
   
   if (Serial.available() > 0) {
 
@@ -229,6 +231,15 @@ void motor(float lap, int motor){
       digitalWrite(stepPin,LOW);
       delayMicroseconds(500);
     }
+}
+
+void crazylights(){
+  for (int i = 0; i < 10; i++) {
+        bande.setPixelColor(i, greenishwhite);
+        bande.show();
+        delay(1000);
+        turnoff_neopixel();
+   }
 }
 
 void play_melo(){
