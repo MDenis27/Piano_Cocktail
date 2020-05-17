@@ -127,8 +127,10 @@ void loop() {
     play_melo();
 
     feedbackEndTransmission();
+    
+  }
 
-    if (complete) {
+  if (complete) {
       digitalWrite(13, HIGH); 
       int cocktail = inputString.toInt();
 
@@ -167,8 +169,6 @@ void loop() {
       complete = false;
       digitalWrite(13, LOW); 
     }
-    
-  }
 
 }
 
