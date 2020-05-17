@@ -117,42 +117,48 @@ void loop() {
 
   String data = Serial.readStringUntil(':');
   int int_data = data.toInt();
+
+  if (int_data == 0){
+    i = 0;
+    reception = true;
+    Serial.flush();
+    while (reception){
+        data = Serial.readStringUntil(':');  // read receive value until ':' character
+        int_data = data.toInt(); // convert to int
+        if (int_data != 0){
+          myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
+          delay(50);
+          i++;
+        }
+        else {
+          reception = false;
+        }
+        Serial.flush();
+    }
   
-  i = 0;
-  reception = true;
-  while (reception){
-      String data = Serial.readStringUntil(':');  // read receive value until ':' character
-      int int_data = data.toInt(); // convert to int
-      if (int_data != 0){
-        myMelo[i] = int_data; //met les notes envoyées par la Raspbery et la liste de notes
-        delay(50);
-        i++;
-      }
-      else {
-        reception = false;
-      }
+    feedbackEndTransmission();
+    Serial.flush();
+  
+    turnoff_neopixel();
+  
+    play_melo();
+  
+    delay(3000);
+    
+    feedbackEndTransmission();
+    Serial.flush();
+  
+    delay(3000);
+
+    int cocktail = Serial.read() - '0';
+
+    // Select the cocktail
+    serveDrink(cocktail);
+    feedbackEndTransmission();
+    digitalWrite(13, LOW);
   }
 
-  feedbackEndTransmission();
-
-  turnoff_neopixel();
-
-  play_melo();
-
-  delay(3000);
   
-  feedbackEndTransmission();
-
-  delay(3000);
-
-  feedbackEndTransmission();
-
-  int cocktail = Serial.read() - '0';
-
-  // Select the cocktail
-  serveDrink(cocktail);
-  feedbackEndTransmission();
-  digitalWrite(13, LOW);
 
 }
 
