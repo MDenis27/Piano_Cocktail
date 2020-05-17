@@ -8,6 +8,9 @@ import test_interface as ti
 import time
 import argparse
 import RPi.GPIO as GPIO
+import serial
+
+ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -46,8 +49,8 @@ while True:
         if args.interface:
             selected_song = ti.selecting_song(avail_songs,cor_seq)
             print(selected_song)
-#            if args.arduino:
-# melo.SendMelo(selected_song)
+            if args.arduino:
+                melo.SendMelo(selected_song,ser)
         print("Let's play")
         if args.piano:
             print("Piano args: OK")
@@ -58,12 +61,12 @@ while True:
         if args.arduino:
             print("Arduino args: OK")
             try:
-                melo.sendCocktail(seq,cor_seq)
+                melo.sendCocktail(seq,cor_seq,ser)
                 print("Transmission ended")
             except:
                print("Arduino is not attached")
+               ser.close()
         time.sleep(5)
-        print("gj")
     else:
         speak('Go home kiddo, this toy is for big boys')
         print("You are underaged")
