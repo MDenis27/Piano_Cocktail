@@ -130,10 +130,14 @@ void loop() {
 
     play_melo();
 
+    delay(3000);
+    
     feedbackEndTransmission();
     
   }
 
+  feedbackEndTransmission();
+  
   if (complete) {
       digitalWrite(13, HIGH); 
       int cocktail = inputString.toInt();
