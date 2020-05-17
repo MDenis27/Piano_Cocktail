@@ -2,7 +2,6 @@ import time
 import serial
 from cocktail_melo import melo_test
 
-
 #listMelodies = [[71, 71, 71], [69, 69, 69], [52, 19, 31], [15, 17, 52], [25, 30, 41]]
 
 def sendCocktail(melo_seq,listMelodies,ser):

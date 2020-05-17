@@ -65,7 +65,6 @@ while True:
                 print("Transmission ended")
             except:
                print("Arduino is not attached")
-               ser.close()
         time.sleep(5)
     else:
         speak('Go home kiddo, this toy is for big boys')
