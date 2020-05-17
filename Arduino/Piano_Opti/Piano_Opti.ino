@@ -129,6 +129,7 @@ void loop() {
     feedbackEndTransmission();
 
     if (complete) {
+      digitalWrite(13, HIGH); 
       int cocktail = inputString.toInt();
 
     // Select the cocktail
@@ -164,6 +165,7 @@ void loop() {
       // clear the string:
       inputString = "";
       complete = false;
+      digitalWrite(13, LOW); 
     }
     
   }
