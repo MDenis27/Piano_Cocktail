@@ -135,13 +135,22 @@ void loop() {
   feedbackEndTransmission();
 
     int cocktail = Serial.read() - '0';
-    
-    if (cocktail == 1){
-      digitalWrite(13, HIGH);
-    }
+
     // Select the cocktail
     switch (cocktail) {
       case 1:
+        digitalWrite(13, HIGH);
+        
+        // Decide the sens of rotation
+        digitalWrite(dirPin,LOW);
+        
+        for(int x = 0; x < 400; x++) {
+          digitalWrite(stepPin,HIGH);
+          delayMicroseconds(500);
+          digitalWrite(stepPin,LOW);
+          delayMicroseconds(500);
+        }
+        
         serveDrink(cocktail1);
         break;
       case 2:
@@ -232,12 +241,12 @@ void motor(float lap, int motor){
   //Turn <val> step
   val = (int) value;
   Serial.println(val);
-    for(int x = 0; x < val; x++) {
-      digitalWrite(stepPin,HIGH);
-      delayMicroseconds(500);
-      digitalWrite(stepPin,LOW);
-      delayMicroseconds(500);
-    }
+  for(int x = 0; x < val; x++) {
+    digitalWrite(stepPin,HIGH);
+    delayMicroseconds(500);
+    digitalWrite(stepPin,LOW);
+    delayMicroseconds(500);
+  }
 }
 
 void play_melo(){
