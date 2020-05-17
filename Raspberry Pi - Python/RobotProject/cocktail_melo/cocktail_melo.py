@@ -2,16 +2,15 @@ import time
 import serial
 from cocktail_melo import melo_test
 
-ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+
 #listMelodies = [[71, 71, 71], [69, 69, 69], [52, 19, 31], [15, 17, 52], [25, 30, 41]]
 
-def sendCocktail(melo_seq,listMelodies):
+def sendCocktail(melo_seq,listMelodies,ser):
     """
     Connect to the arduino, 
     compare the giving argument 'melo_seq' to the list of sequences
     and send the id of the cocktail 
     """
-    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     ser.flush()
 
     while True:
@@ -39,19 +38,20 @@ def compare_melo(melo_seq, listMelodies):
     print(result)
     return result
 
-def waitResponse(s):
+def waitResponse(ser):
     """
     Connect to the arduino and wait for a feedback
     """
+    ser.flush()
     while True:
-        number = s.read()
+        number = ser.read()
         if number != b'':
             if int.from_bytes(number, byteorder='big') == 1:
                 return True
 
-def SendMelo(given_sequence):
+def SendMelo(given_sequence,ser):
     """Methode qui envoie la melodie du cocktail choisi à l'arduino"""
-    ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
+    
     ser.flush()
 
     ser.write((str(0)+":").encode('utf-8'))
